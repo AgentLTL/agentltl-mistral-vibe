@@ -1,0 +1,533 @@
+{
+ "vibe": "2.26.0",
+ "runtime": "unified (default)",
+ "note": "Hook payloads captured from `vibe -p` with a scripted model (docker/), in the order the hooks ran. Session 1: bash, a failed edit (no such file), a non-zero exit, two parallel calls, a commit. Session 2: write_file, read_file, two bash calls from inside run_typescript (the second denied by the probe), a denied bash, post_agent sent back once. Session 3: subagent.spawn / subagent.wait from run_typescript; the subagent's own bash call ran without hooks.",
+ "sessions": [
+  [
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_a2552bbd",
+     "tool_input": {
+      "command": "ls -a"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_a2552bbd",
+     "tool_input": {
+      "command": "ls -a"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "ls -a",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ".\n..\n.git\n",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: ls -a\nreturncode: 0\nstderr: \nstdout: .\n..\n.git\n\nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.search_replace",
+     "tool_call_id": "call_7dc50439",
+     "tool_input": {
+      "file_path": "notes.txt",
+      "old_string": "hello",
+      "new_string": "hi",
+      "replace_all": false
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.search_replace",
+     "tool_call_id": "call_7dc50439",
+     "tool_input": {
+      "file_path": "notes.txt",
+      "old_string": "hello",
+      "new_string": "hi",
+      "replace_all": false
+     },
+     "tool_status": "failure",
+     "tool_output": null,
+     "tool_output_text": "File not found at: /work/notes.txt",
+     "tool_error": "File not found at: /work/notes.txt",
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_a5bee629",
+     "tool_input": {
+      "command": "false"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_a5bee629",
+     "tool_input": {
+      "command": "false"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "false",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": "",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: false\nreturncode: 1\nstderr: \nstdout: \nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_b4531e75",
+     "tool_input": {
+      "command": "echo a"
+     }
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_92d215a2",
+     "tool_input": {
+      "command": "echo b"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_b4531e75",
+     "tool_input": {
+      "command": "echo a"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "echo a",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "a\n",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: echo a\nreturncode: 0\nstderr: \nstdout: a\n\nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_92d215a2",
+     "tool_input": {
+      "command": "echo b"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "echo b",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "b\n",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: echo b\nreturncode: 0\nstderr: \nstdout: b\n\nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_1271ae03",
+     "tool_input": {
+      "command": "git add notes.txt && git commit -q -m 'add notes' -m 'Co-Authored-By: Mistral Vibe <vibe@mistral.ai>'"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_1271ae03",
+     "tool_input": {
+      "command": "git add notes.txt && git commit -q -m 'add notes' -m 'Co-Authored-By: Mistral Vibe <vibe@mistral.ai>'"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "git add notes.txt && git commit -q -m 'add notes' -m 'Co-Authored-By: Mistral Vibe <vibe@mistral.ai>'",
+      "returncode": 128,
+      "stderr": "fatal: pathspec 'notes.txt' did not match any files\n",
+      "stdout": "",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: git add notes.txt && git commit -q -m 'add notes' -m 'Co-Authored-By: Mistral Vibe <vibe@mistral.ai>'\nreturncode: 128\nstderr: fatal: pathspec 'notes.txt' did not match any files\n\nstdout: \nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "post_agent",
+    "payload": {
+     "session_id": "d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/d3ccad93-8914-ca15-29a4-4a4bbee51f1f",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_agent"
+    }
+   }
+  ],
+  [
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.write_file",
+     "tool_call_id": "call_cd600907",
+     "tool_input": {
+      "file_path": "notes.txt",
+      "content": "hello\n"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.write_file",
+     "tool_call_id": "call_cd600907",
+     "tool_input": {
+      "file_path": "notes.txt",
+      "content": "hello\n"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "bytes_written": 6,
+      "file_existed": false,
+      "path": "/work/notes.txt"
+     },
+     "tool_output_text": "bytes_written: 6\nfile_existed: False\npath: /work/notes.txt",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.read_file",
+     "tool_call_id": "call_a2d9e39a",
+     "tool_input": {
+      "file_path": "notes.txt"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.read_file",
+     "tool_call_id": "call_a2d9e39a",
+     "tool_input": {
+      "file_path": "notes.txt"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "content": "hello\n",
+      "file_size_bytes": 6,
+      "lines_read": 1,
+      "offset": 0,
+      "path": "/work/notes.txt",
+      "returned_bytes": 6,
+      "was_truncated": false
+     },
+     "tool_output_text": "content: hello\n\nfile_size_bytes: 6\nlines_read: 1\noffset: 0\npath: /work/notes.txt\nreturned_bytes: 6\nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "typescript:11:call_904efa80:0:tool:0",
+     "tool_input": {
+      "command": "echo nested"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "typescript:11:call_904efa80:0:tool:0",
+     "tool_input": {
+      "command": "echo nested"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "command": "echo nested",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "nested\n",
+      "was_truncated": false
+     },
+     "tool_output_text": "command: echo nested\nreturncode: 0\nstderr: \nstdout: nested\n\nwas_truncated: False",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "typescript:11:call_904efa80:1:tool:1",
+     "tool_input": {
+      "command": "echo DENYME"
+     }
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "file_system.bash",
+     "tool_call_id": "call_eb786c8d",
+     "tool_input": {
+      "command": "echo DENYME direct"
+     }
+    }
+   },
+   {
+    "event": "post_agent",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_agent"
+    }
+   },
+   {
+    "event": "post_agent",
+    "payload": {
+     "session_id": "93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/93bdf6fa-68c5-ff7e-34d3-7eec82a98472",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_agent"
+    }
+   }
+  ],
+  [
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "subagent.spawn",
+     "tool_call_id": "typescript:3:call_379c8c27:0:tool:0",
+     "tool_input": {
+      "agentName": "kid",
+      "message": "CHILD: run ls"
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "subagent.spawn",
+     "tool_call_id": "typescript:3:call_379c8c27:0:tool:0",
+     "tool_input": {
+      "agentName": "kid",
+      "message": "CHILD: run ls"
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "type": "success"
+     },
+     "tool_output_text": "type: success",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "pre_tool",
+    "payload": {
+     "session_id": "684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "pre_tool",
+     "tool_name": "subagent.wait",
+     "tool_call_id": "typescript:3:call_379c8c27:1:tool:1",
+     "tool_input": {
+      "agentName": "kid",
+      "timeoutMs": 30000
+     }
+    }
+   },
+   {
+    "event": "post_tool",
+    "payload": {
+     "session_id": "684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_tool",
+     "tool_name": "subagent.wait",
+     "tool_call_id": "typescript:3:call_379c8c27:1:tool:1",
+     "tool_input": {
+      "agentName": "kid",
+      "timeoutMs": 30000
+     },
+     "tool_status": "success",
+     "tool_output": {
+      "type": "success",
+      "value": "child done"
+     },
+     "tool_output_text": "type: success\nvalue: child done",
+     "tool_error": null,
+     "duration_ms": 0
+    }
+   },
+   {
+    "event": "post_agent",
+    "payload": {
+     "session_id": "684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "transcript_path": "/home/dev/.vibe/logs/session/unified/684865fc-fed5-9f0f-18ff-c54d9911f743",
+     "cwd": "/work",
+     "parent_session_id": null,
+     "hook_event_name": "post_agent"
+    }
+   }
+  ]
+ ]
+}

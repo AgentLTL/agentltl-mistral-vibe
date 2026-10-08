@@ -1,0 +1,13 @@
+{
+  "name": "agentltl",
+  "description": "AgentLTL for Mistral Vibe: checks every tool call, shell commands included, against AGENTLTL.yaml",
+  "version": "0.1.0",
+  "author": {
+    "name": "lailanelkoussy"
+  },
+  "homepage": "https://agentltl.github.io/harnesses/mistral-vibe/",
+  "repository": "https://github.com/AgentLTL/agentltl-mistral-vibe",
+  "license": "MIT",
+  "keywords": ["agentltl", "ltl", "guardrails", "hooks", "rules", "shell"],
+  "skills": "skills/"
+}

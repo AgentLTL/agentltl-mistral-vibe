@@ -1,0 +1,14 @@
+[
+ {"calls": [{"name": "bash", "args": {"command": "ls"}}]},
+ {"calls": [{"name": "write_file", "args": {"path": "notes.txt", "content": "hello\n"}}]},
+ {"calls": [{"name": "write_file", "args": {"path": "README.md", "content": "overwritten\n"}}]},
+ {"calls": [{"name": "bash", "args": {"command": "sudo ls"}}]},
+ {"calls": [{"name": "bash", "args": {"command": "rm -rf build"}}]},
+ {"calls": [{"name": "bash", "args": {"command": "rm -rf build"}}]},
+ {"calls": [{"name": "bash", "args": {"command": "git add notes.txt && git commit -q -m 'add notes' -m 'Co-Authored-By: Mistral Vibe <vibe@mistral.ai>'"}}]},
+ {"calls": [{"name": "bash", "args": {"command": "echo y | git push --force origin main"}}]},
+ {"calls": [{"name": "run_typescript", "args": {"code": "async function main() { try { return await tools.file_system.bash({command: 'sudo id'}); } catch (e) { return String(e); } }"}}]},
+ {"text": "Done."},
+ {"calls": [{"name": "bash", "args": {"command": "git add notes.txt && git commit -q -m 'add notes'"}}]},
+ {"text": "Done, committed."}
+]

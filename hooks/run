@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Hook launcher (hooks.toml, written by `agentltl install`): finds the plugin's Python and
+# runs the guard from this plugin directory. $1 is the hook event: pre_tool, post_tool or
+# post_agent. The first hook of a plugin version whose dependency pins have no environment
+# yet builds it (see scripts/env.sh), whichever hook that is.
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# shellcheck source=../scripts/env.sh
+source "$root/scripts/env.sh"
+
+py="$(env_python)"
+if [[ -z "$py" ]]; then
+    env_build && py="$(env_python)"
+fi
+if [[ "$1" == "post_agent" ]]; then
+    env_touch_and_prune
+fi
+if [[ -z "$py" ]]; then
+    # Not installed. Stay out of the way unless rules exist, in which case say so loudly.
+    cat > /dev/null
+    top="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    if [[ -f "$top/AGENTLTL.yaml" || -f "${VIBE_HOME:-$HOME/.vibe}/AGENTLTL.yaml" ]]; then
+        msg="AgentLTL for Mistral Vibe could not build its environment (run $root/scripts/setup.sh); rules are not enforced."
+        case "$1" in
+            pre_tool) printf '{"decision":"deny","reason":"%s Tell the user.","system_message":"%s"}' "$msg" "$msg" ;;
+            post_tool) printf '{"hook_specific_output":{"additional_context":"%s Tell the user."},"system_message":"%s"}' "$msg" "$msg" ;;
+        esac
+    fi
+    exit 0
+fi
+PYTHONPATH="$root/src${PYTHONPATH:+:$PYTHONPATH}" exec "$py" -m agentltl_vibe.hook "$1"

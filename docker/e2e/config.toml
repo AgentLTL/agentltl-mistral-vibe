@@ -1,0 +1,18 @@
+active_model = "scripted"
+
+[[providers]]
+name = "fake"
+api_base = "http://127.0.0.1:8999/v1"
+api_key_env_var = "FAKE_KEY"
+backend = "generic"
+api_style = "openai"
+
+[[models]]
+name = "scripted"
+provider = "fake"
+alias = "scripted"
+thinking = "off"
+max_context_length = 32000
+
+[utility_models]
+title = "scripted"
