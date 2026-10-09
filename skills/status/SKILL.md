@@ -1,5 +1,5 @@
 ---
-name: agentltl-status
+name: status
 description: "Show the rules in force and what they blocked"
 ---
 ## The `agentltl` command
@@ -24,5 +24,5 @@ Report on AgentLTL for Mistral Vibe. Requested: what the user asked for (nothing
   2. Then run `agentltl reset`.
 - **check <steps>**: run `agentltl check <steps>` and explain each outcome.
 
-To pick packaged rules, use the `/agentltl-setup` skill. To add, change or remove rules, use
-the `/agentltl-rules` skill.
+To pick packaged rules, use the `/agentltl:setup` skill. To add, change or remove rules, use
+the `/agentltl:rules` skill.

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "agentltl",
   "description": "AgentLTL for Mistral Vibe: checks every tool call, shell commands included, against AGENTLTL.yaml",
   "version": "0.1.0",
@@ -8,6 +9,5 @@
   "homepage": "https://agentltl.github.io/harnesses/mistral-vibe/",
   "repository": "https://github.com/AgentLTL/agentltl-mistral-vibe",
   "license": "MIT",
-  "keywords": ["agentltl", "ltl", "guardrails", "hooks", "rules", "shell"],
-  "skills": "skills/"
+  "keywords": ["agentltl", "ltl", "guardrails", "hooks", "rules", "shell"]
 }

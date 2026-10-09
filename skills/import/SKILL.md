@@ -1,6 +1,6 @@
 ---
-name: agentltl-import
-description: "Turn instructions into enforced rules. Use when: The user asks to turn AGENTS.md or a custom agent's instructions into AGENTLTL rules ('scan my instructions for rules', 'which of my instructions can be enforced', 'import my instructions'), or picks the memory scan during /agentltl-setup."
+name: import
+description: "Turn instructions into enforced rules. Use when: The user asks to turn AGENTS.md or a custom agent's instructions into AGENTLTL rules ('scan my instructions for rules', 'which of my instructions can be enforced', 'import my instructions'), or picks the memory scan during /agentltl:setup."
 ---
 
 # Turning memory into rules
@@ -18,7 +18,7 @@ time. Everything else stays in memory, where it belongs.
 With `--user` (the user asks about their own instructions, not the project's), the rules go
 in `~/.vibe/AGENTLTL.yaml`.
 
-The rule syntax is in [the rules skill's reference.md](../agentltl-rules/reference.md).
+The rule syntax is in [the rules skill's reference.md](../rules/reference.md).
 Read it before you draft anything.
 
 ## Steps
@@ -113,7 +113,7 @@ Read it before you draft anything.
    - Never delete a memory file.
 
 8. **Summarise**: the number of rules added and their modes, the specs added, what was
-   declined, and what stays in memory as not-a-rule. Running `/agentltl-import` again
+   declined, and what stays in memory as not-a-rule. Running `/agentltl:import` again
    later only shows what's new.
 
 Rules apply from the next tool call; no restart is needed.

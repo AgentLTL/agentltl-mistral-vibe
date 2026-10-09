@@ -48,8 +48,8 @@ git clone --recurse-submodules https://github.com/AgentLTL/agentltl-mistral-vibe
 | `~/.claude/AGENTLTL.yaml` | `~/.vibe/AGENTLTL.yaml` |
 | Memory: `CLAUDE.md`, `.claude/rules/`, auto memory | Instructions: `AGENTS.md` (project and `~/.vibe/`), custom agents' `instructions` (`agents/*.toml`), prompts (`prompts/*.md`) |
 | Built-in rule `memory-first` | the same, on Vibe's instruction files |
-| Skills `/agentltl:setup`, `:rules`, `:import`, `:status` | `/agentltl-setup`, `/agentltl-rules`, `/agentltl-import`, `/agentltl-status` |
-| Status line | Vibe has none: `/agentltl-status` and `agentltl trace` |
+| Skills `/agentltl:setup`, `:rules`, `:import`, `:status` | the same: Vibe names a plugin's skills `<plugin>:<skill>` (the clone in `~/.vibe/plugins/agentltl` provides them) |
+| Status line | Vibe has none: `/agentltl:status` and `agentltl trace` |
 | Library `no-claude-coauthor`, `subagents-on-sonnet` | `no-vibe-coauthor` (Vibe's `Co-Authored-By: Mistral Vibe <vibe@mistral.ai>`); the Claude Code entries switch nothing on here |
 
 ## Hooks

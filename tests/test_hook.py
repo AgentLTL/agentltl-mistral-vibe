@@ -92,7 +92,7 @@ def test_short_and_qualified_names_are_the_same_tool(project):
 def test_the_first_call_of_a_session_brings_the_rules(project):
     out = post(project, *bash("ls"), "a")
     text = out["hook_specific_output"]["additional_context"]
-    assert "tests-before-push" in text and "memory-first" in text and "/agentltl-rules" in text
+    assert "tests-before-push" in text and "memory-first" in text and "/agentltl:rules" in text
     assert "subagents-unchecked" in text
     assert out["system_message"].startswith("AgentLTL: 4 rule(s) in force")
     assert post(project, *bash("ls"), "a") is None                       # once

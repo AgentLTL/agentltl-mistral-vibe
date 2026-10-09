@@ -1,5 +1,5 @@
 ---
-name: agentltl-setup
+name: setup
 description: "Pick ready-made rules to switch on. Use when: First setup of AgentLTL, or when the user asks which AGENTLTL rules are available, wants to browse, switch on or switch off packaged rules from the plugin's library, or says 'set up agentltl'."
 ---
 
@@ -38,7 +38,7 @@ of `AGENTLTL.yaml`; the rule itself stays in the plugin and gets fixes with plug
 
 4. **Ask about strictness** only if the user wants it. Every entry has a sensible default
    mode. To change it, use `agentltl use NAME --mode warn`. The modes are block, warn, ask,
-   retry, stop and log; see the `/agentltl-rules` skill's reference.md.
+   retry, stop and log; see the `/agentltl:rules` skill's reference.md.
 
 5. **Apply the choices**, adding `--user` for every project:
    - `agentltl use NAME...` for the newly ticked entries;
@@ -57,10 +57,10 @@ of `AGENTLTL.yaml`; the rule itself stays in the plugin and gets fixes with plug
 7. **Offer to scan memory**: run `agentltl memory scan --json`. If its
    `counts.candidates` is above 0, offer "Scan your instructions (AGENTS.md) for rules
    (N statements in M files)". If the user accepts, follow
-   [the import skill](../agentltl-import/SKILL.md) from its step 2, reusing
+   [the import skill](../import/SKILL.md) from its step 2, reusing
    that scan. Instructions already in memory then become rules that are enforced.
 
 8. **Offer custom rules**: for anything the library and memory don't cover, use the
-   `/agentltl-rules` skill to write a rule from the user's own words.
+   `/agentltl:rules` skill to write a rule from the user's own words.
 
 Changes apply from the next tool call. No restart is needed.

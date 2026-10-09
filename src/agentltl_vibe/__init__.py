@@ -97,15 +97,15 @@ MEMORY_FIRST = {
     "why": "AGENTLTL rules are enforced on every call; instructions can be forgotten. If what you "
            "are saving says which tool calls or commands to make, avoid, or make first (never X, "
            "always Y before Z, at most N times, only with these arguments), add it to "
-           "AGENTLTL.yaml instead, using the /agentltl-rules skill, and leave it out of the "
+           "AGENTLTL.yaml instead, using the /agentltl:rules skill, and leave it out of the "
            "instructions.",
-    "fix": "Write the rule with the /agentltl-rules skill. Keep in the instructions only what no "
+    "fix": "Write the rule with the /agentltl:rules skill. Keep in the instructions only what no "
            "rule can check (facts, preferences, style). If nothing here can be a rule, repeat "
            "this exact call to save it.",
 }
 MEMORY_NOTE = ("before you add anything to instructions (AGENTS.md, an agent's instructions or "
                "prompt), ask whether it is a rule about tool calls or commands. If it is, add it "
-               "to AGENTLTL.yaml with the /agentltl-rules skill instead: rules there are "
+               "to AGENTLTL.yaml with the /agentltl:rules skill instead: rules there are "
                "enforced, instructions can be forgotten.")
 
 
@@ -122,7 +122,7 @@ MISTRAL_VIBE = Harness(
     tool_aliases=TOOL_ALIASES,
     builtins={"memory_first": MEMORY_FIRST, "subagents_unchecked": SUBAGENTS_UNCHECKED},
     project_env="VIBE_PROJECT_DIR",
-    skill="/agentltl-{}",
+    skill="/agentltl:{}",
     memory=_memory,
     memory_note=MEMORY_NOTE,
 )

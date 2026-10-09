@@ -1,5 +1,5 @@
 ---
-name: agentltl-rules
+name: rules
 description: "Add, change or remove a rule, in plain words. Use when: The user asks to add, change, remove, switch off, explain or debug an AGENTLTL rule ('never force-push', 'run the tests before pushing', 'don't touch .env', 'remove the rule about force-pushing', 'stop blocking rm -rf'), or to translate a policy into AgentLTL / LTL constraints. Also use it instead of saving to memory (AGENTS.md, an agent's instructions) whenever what you would remember says which tool calls or commands to make, avoid, or make first ('remember to never...', 'from now on always ... before ...')."
 ---
 
@@ -19,7 +19,7 @@ parsed into structured calls first: `git commit -am x && git push -f` is checked
 The user's request is in their message.
 
 Rule kinds, target syntax, modes and worked examples are in
-[reference.md](../agentltl-rules/reference.md). Read it before you
+[reference.md](../rules/reference.md). Read it before you
 write a rule.
 
 If the user wants to remove, switch off or loosen a rule, go to
@@ -132,7 +132,7 @@ If you came here instead of saving a memory, don't also save the rule to memory:
 is listed to Vibe at every session start. Save to memory only the parts no rule can check.
 
 For instructions that are already in custom instructions, the
-[import skill](../agentltl-import/SKILL.md) (`/agentltl-import`) finds them
+[import skill](../import/SKILL.md) (`/agentltl:import`) finds them
 all and converts them in one pass.
 
 Rules apply from the next tool call; no restart is needed. A broken file disables ALL rules,

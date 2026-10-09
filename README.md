@@ -47,16 +47,16 @@ Vibe runs, Mistral's or your own.
 - **Variables across calls:** `$variables` tie calls together by their arguments.
 - **Real shell parsing:** `git commit -am x && git push -f` is checked as `git_commit` then
   `git_push{force: true}`, all or nothing.
-- **Plain-language rules:** ask Vibe to "add a rule: never push to main" (`/agentltl-rules`);
+- **Plain-language rules:** ask Vibe to "add a rule: never push to main" (`/agentltl:rules`);
   it writes the rule and tests it before saving.
 - **Opt-in rule library:** tested rules for git, secrets, installs and infrastructure
-  (`/agentltl-setup`).
+  (`/agentltl:setup`).
 - **`finally` rules:** "run the tests before you finish": Vibe is sent back before it ends its
   turn.
 - **Secret leak alerts:** when a command's output contains what looks like a credential, Vibe
   is told not to repeat it and you get a notice, so you can rotate it.
 - **Rules instead of instructions:** when Vibe would write a rule into `AGENTS.md`, it writes an
-  enforced rule instead; `/agentltl-import` does the same for what your instructions already
+  enforced rule instead; `/agentltl:import` does the same for what your instructions already
   hold.
 - **Fail-safe:** never approves a call; if the guard can't answer, the call is refused.
 
@@ -74,7 +74,7 @@ AgentLTL's three hooks to `~/.vibe/hooks.toml` (your own hooks there are kept), 
 `agentltl` command into `~/.local/bin`. Vibe has no plugin installer and doesn't run hooks
 from plugin folders, hence this step. The plugin does nothing until there is an
 `AGENTLTL.yaml`: at a project's root for that project, or in `~/.vibe/` for every project.
-Start with `/agentltl-setup` in a Vibe session to pick rules from the library.
+Start with `/agentltl:setup` in a Vibe session to pick rules from the library.
 
 **Updating:** `agentltl update`. **Removing:** `agentltl uninstall`, then delete the folder.
 
@@ -154,10 +154,10 @@ Vibe`); `no-vibe-coauthor` refuses those commits, and `include_commit_signature 
 
 | In Vibe | What it does |
 |---|---|
-| `/agentltl-setup` | pick packaged rules to switch on |
-| `/agentltl-rules` | add, change or remove a rule in plain words |
-| `/agentltl-import` | turn instructions (`AGENTS.md`...) into enforced rules |
-| `/agentltl-status` | the rules in force and what they blocked |
+| `/agentltl:setup` | pick packaged rules to switch on |
+| `/agentltl:rules` | add, change or remove a rule in plain words |
+| `/agentltl:import` | turn instructions (`AGENTS.md`...) into enforced rules |
+| `/agentltl:status` | the rules in force and what they blocked |
 
 | Command | What it does |
 |---|---|
