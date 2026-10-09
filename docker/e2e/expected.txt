@@ -1,0 +1,8 @@
+# What `agentltl trace` must show after the scripted session (e2e/script.json), in order.
+DENY  [read-before-overwrite] Write README.md
+DENY  [no-sudo] Bash sudo ls
+ASK   [ask-before-rm-rf] Bash rm -rf build
+ASK   [ask-before-rm-rf] Bash rm -rf build
+DENY  [no-vibe-coauthor]
+DENY  [no-force-push]
+DENY  [no-sudo] Bash sudo id

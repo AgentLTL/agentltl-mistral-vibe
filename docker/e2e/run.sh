@@ -11,7 +11,8 @@ cp -r /src "$VIBE_HOME/plugins/agentltl" && rm -rf "$VIBE_HOME/plugins/agentltl/
 cd /work && printf 'hello\n' > README.md && git add README.md && git commit -qm init
 cp "$here/AGENTLTL.yaml" /work/AGENTLTL.yaml
 "$VIBE_HOME/plugins/agentltl/bin/agentltl" install --no-cli > /out/install.txt 2>&1
-LOG_DIR=/out python3 /src/docker/scripted_model.py "$here/script.json" &
+vibe --version > /out/version.txt 2>&1
+python3 /src/vendor/agentltl-coding/e2e/scripted_model.py "$here/script.json" --log /out &
 sleep 1
 timeout 300 vibe -p "do the scripted steps" --auto-approve --trust --output json \
     > /out/vibe.json 2> /out/vibe-stderr.txt

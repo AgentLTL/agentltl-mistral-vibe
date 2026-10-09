@@ -231,7 +231,9 @@ docker run --rm -it --network host --env-file .env -v "$PWD":/src:ro agentltl-vi
 ```
 
 `tests/fixtures/payloads/` holds hook payloads captured from Vibe 2.26.0; the tests replay
-them.
+them. The Vibe version `docker/e2e.sh` tests is pinned in `docker/requirements.txt`;
+Dependabot proposes each new release as a pull request, and the end-to-end workflow flags the
+ones that break the plugin.
 
 ## Documentation
 

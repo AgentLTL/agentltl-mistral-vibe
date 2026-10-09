@@ -3,12 +3,13 @@
 #   docker/e2e.sh                # a scripted model, no model needed
 #   docker/live.sh "a task"      # your OpenAI-compatible model, from .env (.env.example)
 #
-# /work is a scratch git repository; the entrypoint points Vibe at the model in VLLM_*.
+# The Vibe version is pinned in requirements.txt. /work is a scratch git repository; the
+# entrypoint points Vibe at the model in VLLM_*.
 FROM python:3.12-slim
-ARG VIBE_VERSION=2.26.0
+COPY requirements.txt /opt/agentltl/requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
-    && pip install --no-cache-dir "mistral-vibe==${VIBE_VERSION}"
+    && pip install --no-cache-dir -r /opt/agentltl/requirements.txt
 RUN useradd -m dev && mkdir /work /probe && chown dev /work /probe
 USER dev
 ENV PATH="/home/dev/.local/bin:${PATH}"
