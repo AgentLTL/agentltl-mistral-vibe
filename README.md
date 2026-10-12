@@ -62,7 +62,13 @@ Vibe runs, Mistral's or your own.
 
 ## Installation
 
-Requires Python 3.10+, git, and Mistral Vibe 2.26 or later.
+Requires Python 3.10+, git, and Mistral Vibe 2.26 or later. Paste this into Vibe:
+
+```
+Set up the AgentLTL plugin for me by following https://raw.githubusercontent.com/AgentLTL/agentltl-mistral-vibe/main/SETUP.md
+```
+
+Or install manually:
 
 ```bash
 git clone --recurse-submodules https://github.com/AgentLTL/agentltl-mistral-vibe.git ~/.vibe/plugins/agentltl
