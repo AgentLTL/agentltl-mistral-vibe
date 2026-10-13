@@ -75,19 +75,45 @@ def _update(args: argparse.Namespace) -> int:
     # The new version's code runs in a new process: its own install, its own environment.
     return subprocess.run([os.path.join(PLUGIN_ROOT, "bin", "agentltl"), "install"]).returncode
 
+LINK_MARK = "# agentltl: runs "
+
+
+def _link(target: str, link: str) -> None:
+    """Symlink `link` to `target`. Where symlinks are not allowed (Windows without developer
+    mode or administrator rights), write a small script that runs it instead."""
+    try:
+        os.symlink(target, link)
+        return
+    except (OSError, NotImplementedError):
+        pass
+    posix = target.replace("\\", "/")
+    with open(link, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(f'#!/usr/bin/env bash\n{LINK_MARK}{posix}\nexec "{posix}" "$@"\n')
+    os.chmod(link, 0o755)
+
+
+def _links_to(link: str, target: str) -> bool:
+    if os.path.realpath(link) == os.path.realpath(target):
+        return True
+    try:
+        with open(link, encoding="utf-8", errors="replace") as fh:
+            return f"{LINK_MARK}{target.replace(chr(92), '/')}\n" in fh.read(4096)
+    except OSError:
+        return False
+
 
 def _install_cli(args: argparse.Namespace, quiet_clash: bool = False) -> int:
     folder = os.path.expanduser(args.dir)
     target = os.path.join(PLUGIN_ROOT, "bin", "agentltl")
     link = os.path.join(folder, "agentltl")
     if os.path.lexists(link):
-        if os.path.realpath(link) == os.path.realpath(target):
+        if _links_to(link, target):
             return 0
         print(f"{link} exists and is not this plugin's; not linked. Run {target} directly.",
               file=sys.stderr)
         return 0 if quiet_clash else 1
     os.makedirs(folder, exist_ok=True)
-    os.symlink(target, link)
+    _link(target, link)
     on_path = folder in os.environ.get("PATH", "").split(os.pathsep)
     print(f"{link} -> {target}" + ("" if on_path else f"\n{folder} is not on your PATH yet."))
     return 0
