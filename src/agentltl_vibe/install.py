@@ -26,7 +26,8 @@ def hooks_file() -> str:
 
 
 def block(plugin_root: str) -> str:
-    run = os.path.join(plugin_root, "hooks", "run")
+    # With / even on Windows: a backslash path works in Git Bash but not in every shell.
+    run = os.path.join(plugin_root, "hooks", "run").replace(os.sep, "/")
     cmd = lambda event: _toml_str(f"{_sh(run)} {event}")  # noqa: E731
     return "\n".join([
         BEGIN,
