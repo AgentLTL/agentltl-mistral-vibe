@@ -1,5 +1,6 @@
 """`agentltl install` edits ~/.vibe/hooks.toml: only its own block, idempotently."""
 
+import os
 import tomllib
 
 from agentltl_vibe import install
@@ -35,7 +36,8 @@ def test_install_keeps_the_users_hooks_and_is_idempotent(tmp_path, monkeypatch):
                                           "agentltl-post-agent"]
     pre = hooks[1]
     assert pre["type"] == "pre_tool" and pre["strict"] is True and pre["match"] == "*"
-    assert pre["command"] == "'" + root.replace("'", "'\\''") + "/hooks/run' pre_tool"
+    posix_root = root.replace(os.sep, "/")
+    assert pre["command"] == "'" + posix_root.replace("'", "'\\''") + "/hooks/run' pre_tool"
     assert "match" not in hooks[3] and "strict" not in hooks[3]
 
     assert install.install(str(tmp_path / "moved"))[1].startswith("Updated")
