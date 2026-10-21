@@ -3,6 +3,10 @@
 # runs the guard from this plugin directory. $1 is the hook event: pre_tool, post_tool or
 # post_agent. The first hook of a plugin version whose dependency pins have no environment
 # yet builds it (see scripts/env.sh), whichever hook that is.
+#
+# It never lets a broken environment pass for "no rules": if Python cannot run the guard, the
+# environment is rebuilt once and the hook retried; if that fails too, a pre_tool hook denies
+# the call (it is installed `strict`) and says why, so the user knows nothing was checked.
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export PYTHONUTF8=1   # Windows pipes use the ANSI code page: the hook payload, rule files
                       # and the status line are UTF-8
@@ -10,28 +14,51 @@ export PYTHONUTF8=1   # Windows pipes use the ANSI code page: the hook payload, 
 # project's virtualenv, say) would put that project's packages ahead of ours. Tests and
 # development point AGENTLTL_VIBE_PYTHON at their own Python and keep theirs.
 if [[ -z "${AGENTLTL_VIBE_PYTHON:-}" ]]; then unset PYTHONPATH; fi
-unset PYTHONHOME
+unset PYTHONHOME PYTHONEXECUTABLE VIRTUAL_ENV
 # shellcheck source=../scripts/env.sh
 source "$root/scripts/env.sh"
 
+say() {
+    # $1: what to tell the user. Only when rules exist: with none there is nothing to enforce.
+    local top msg
+    top="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+    [[ -f "$top/AGENTLTL.yaml" || -f "${VIBE_HOME:-$HOME/.vibe}/AGENTLTL.yaml" ]] || return 0
+    msg="$(printf '%s' "$1" | tr -d '\000-\037' | sed 's/\\/\\\\/g; s/"/\\"/g' | cut -c1-400)"
+    case "$event" in
+        pre_tool) printf '{"decision":"deny","reason":"%s Tell the user.","system_message":"%s"}' "$msg" "$msg" ;;
+        post_tool) printf '{"hook_specific_output":{"additional_context":"%s Tell the user."},"system_message":"%s"}' "$msg" "$msg" ;;
+    esac
+}
+
+guard() {
+    printf '%s' "$payload" | "$py" -I -s "$root/scripts/launch.py" agentltl_vibe.hook "$event" 2>"$errfile"
+}
+
+event="$1"
+payload="$(cat)"   # read once: a retry needs the same input
 py="$(env_python)"
 if [[ -z "$py" ]]; then
     env_build && py="$(env_python)"
 fi
-if [[ "$1" == "post_agent" ]]; then
+if [[ "$event" == "post_agent" ]]; then
     env_touch_and_prune
 fi
 if [[ -z "$py" ]]; then
     # Not installed. Stay out of the way unless rules exist, in which case say so loudly.
-    cat > /dev/null
-    top="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-    if [[ -f "$top/AGENTLTL.yaml" || -f "${VIBE_HOME:-$HOME/.vibe}/AGENTLTL.yaml" ]]; then
-        msg="AgentLTL for Mistral Vibe could not build its environment (run $root/scripts/setup.sh); rules are not enforced."
-        case "$1" in
-            pre_tool) printf '{"decision":"deny","reason":"%s Tell the user.","system_message":"%s"}' "$msg" "$msg" ;;
-            post_tool) printf '{"hook_specific_output":{"additional_context":"%s Tell the user."},"system_message":"%s"}' "$msg" "$msg" ;;
-        esac
-    fi
+    say "AgentLTL for Mistral Vibe could not build its environment (run $root/bin/agentltl doctor, then $root/scripts/setup.sh); rules are not enforced."
     exit 0
 fi
-PYTHONPATH="$root/src${PYTHONPATH:+:$PYTHONPATH}" exec "$py" -m agentltl_vibe.hook "$1"
+
+errfile="$(mktemp 2>/dev/null || echo /dev/null)"
+trap '[[ "$errfile" == /dev/null ]] || rm -f "$errfile"' EXIT
+out="$(guard)"; status=$?
+if (( status != 0 )) && env_heal "$py"; then
+    # Python could not start or import the guard's libraries: rebuild and try once more.
+    env_build && py="$(env_python)" && { out="$(guard)"; status=$?; }
+fi
+if (( status != 0 )); then
+    say "AgentLTL could not run its guard ($(head -n 3 "$errfile" | tr '\n' ' ')); this call was refused because it could not be checked against the rules. Run $root/bin/agentltl doctor."
+    exit 0
+fi
+env_touch
+printf '%s' "$out"
