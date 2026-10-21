@@ -81,7 +81,10 @@ Tell the user:
 - **Submodules are empty:** the clone was made without `--recurse-submodules`. Run
   `git -C ~/.vibe/plugins/agentltl submodule update --init`, or install again; without them the
   dependencies come from GitHub at the pinned commits.
-- **Every call is refused with "AgentLTL ... is not installed":** the environment could not be
-  built. Run `agentltl install` again and read its error.
+- **Every call is refused with "AgentLTL ... is not installed", or "could not run its guard":**
+  the environment could not be built, or its Python stopped working (upgraded or removed,
+  `Could not import runpy module`). The hook already tried to rebuild it once. Run
+  `agentltl doctor`: it names the Python in use, what it fails to import, and the variables that
+  can break it; then run `agentltl install` again and read its error.
 - **A rule never fires:** run `agentltl validate` and fix any `WARNING`. It means a tool or
   argument name that no command produces.

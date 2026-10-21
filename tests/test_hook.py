@@ -231,7 +231,7 @@ def test_launcher(project):
     """hooks/run with the test Python: payload on stdin, JSON on stdout."""
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     env = dict(os.environ, AGENTLTL_VIBE_PYTHON=sys.executable,
-               PYTHONPATH=os.pathsep.join(sys.path))
+               AGENTLTL_VIBE_PYTHONPATH=os.pathsep.join(sys.path))
     payload = json.dumps({"session_id": "s1", "cwd": str(project), "tool_name": "file_system.bash",
                           "tool_call_id": "c", "tool_input": {"command": "git push"}})
     out = subprocess.run([shutil.which("bash"), os.path.join(root, "hooks", "run"), "pre_tool"], input=payload,
@@ -316,12 +316,51 @@ def test_launcher_ignores_the_callers_python_path(tmp_path):
     (root / ".venv" / "bin").mkdir(parents=True)
     shutil.copy(root / "vendor.lock", root / ".venv" / "vendor.lock")
     stub = root / ".venv" / "bin" / "python"
-    stub.write_text('#!/bin/sh\necho "[$PYTHONPATH][$PYTHONHOME]" > "$MARK"\n')
+    stub.write_text('#!/bin/sh\necho "[$PYTHONPATH][$PYTHONHOME][$VIRTUAL_ENV] $*" > "$MARK"\n')
     stub.chmod(0o755)
     mark = tmp_path / "mark"
     env = {k: v for k, v in os.environ.items() if k != "AGENTLTL_VIBE_PYTHON"}
     env.update(HOME=str(tmp_path / "home"), MARK=str(mark),
-               PYTHONPATH="/elsewhere/site-packages", PYTHONHOME="/elsewhere")
+               PYTHONPATH="/elsewhere/site-packages", PYTHONHOME="/elsewhere",
+               VIRTUAL_ENV="/elsewhere/venv")
     subprocess.run([shutil.which("bash"), str(root / "hooks" / "run"), "pre_tool"], input="{}",
                    capture_output=True, text=True, env=env, cwd=str(tmp_path))
-    assert mark.read_text().strip() == f"[{root}/src][]"
+    assert mark.read_text().strip() == (
+        f"[][][] -I -s -X utf8 {root}/scripts/launch.py agentltl_vibe.hook pre_tool")
+
+
+def _launcher_with_python(tmp_path, project, body):
+    """hooks/run with a stub interpreter in the plugin's .venv, so it is not a test override."""
+    src = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root = tmp_path / "plugin"
+    shutil.copytree(os.path.join(src, "hooks"), root / "hooks")
+    shutil.copytree(os.path.join(src, "scripts"), root / "scripts")
+    shutil.copy(os.path.join(src, "vendor.lock"), root / "vendor.lock")
+    (root / ".venv" / "bin").mkdir(parents=True)
+    shutil.copy(root / "vendor.lock", root / ".venv" / "vendor.lock")
+    stub = root / ".venv" / "bin" / "python"
+    stub.write_text("#!/bin/sh\n" + body + "\n")
+    stub.chmod(0o755)
+    # A recent failed setup: the hook must not try to rebuild (pip, git, network) in a test.
+    (root / ".build-failed").write_text("")
+    (project / "AGENTLTL.yaml").write_text("rules: [{id: a, never: rm}]\n")
+    env = {k: v for k, v in os.environ.items() if k != "AGENTLTL_VIBE_PYTHON"}
+    env.update(HOME=str(tmp_path / "home"))
+
+    def run(event):
+        return subprocess.run([shutil.which("bash"), str(root / "hooks" / "run"), event],
+                              input="{}", capture_output=True, text=True, env=env, cwd=str(project))
+    return run
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="the stub interpreter is a shell script")
+def test_a_python_that_cannot_run_the_guard_is_reported_not_ignored(project, tmp_path):
+    """Python dying at startup ("Could not import runpy module"): the call is refused, with the
+    reason, and the next hooks say the environment is broken."""
+    run = _launcher_with_python(tmp_path, project,
+                                'echo "Could not import runpy module" >&2; exit 1')
+    first = json.loads(run("pre_tool").stdout)
+    assert first["decision"] == "deny" and "could not be checked" in first["reason"]
+    assert "Could not import runpy module" in first["reason"]
+    later = json.loads(run("pre_tool").stdout)                               # the venv was dropped
+    assert later["decision"] == "deny" and "agentltl doctor" in later["reason"]
