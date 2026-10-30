@@ -1,3 +1,3 @@
 # The Mistral Vibe version the plugin is tested with (Dockerfile, e2e.sh). Dependabot
 # proposes each new release as a pull request, which runs the end-to-end test on it.
-mistral-vibe==2.26.1
+mistral-vibe==3.0.4
